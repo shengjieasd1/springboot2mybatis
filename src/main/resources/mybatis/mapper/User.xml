@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sj.springboot2mybatis.dao.IUserDao">
+	<!--<resultMap type="UserPer" id="UserPer">-->
+	<!--	          &lt;!&ndash; 主键使用id标签配置映射关系&ndash;&gt;-->
+	<!--	         <id column="id" property="id"/>-->
+	<!--	        &lt;!&ndash; 其他列使用result标签配置映射关系 &ndash;&gt;-->
+	<!--	         <result  column="username" property="username"/>-->
+	<!--	         <result  column="permission" property="permiss"/>-->
+	<!--</resultMap>-->
+	<!--<resultMap id="UserRole" type="UserRole">-->
+	<!--	<id column="id" property="id"/>-->
+	<!--	<result column="username" property="username"/>-->
+	<!--	<result column="rolename" property="rolename"/>-->
+	<!--</resultMap>-->
+    <insert id="addUser" parameterType="User">
+		insert into User(username,password,birthday,sex,tel,email) values (#{username},#{password},#{birthday},#{sex},#{tel},#{email})
+	</insert>
+	<update id="updateUser" parameterType="User" >
+		update user set username=#{username},password=#{password},birthday=#{birthday},sex=#{sex},tel=#{tel},email=#{email} where id=#{id}
+	</update>
+	<delete id="deleteUser" parameterType="User">
+		delete from user where id=#{id} AND username=#{username}
+	</delete>
+	<select id="selectUser" resultType="User" parameterType="int">
+		select * from user where id=#{id}
+	</select>
+	<select id="selectBlurryUser" resultType="User" parameterType="String">
+		select * from user where username like '%${value}%'
+	</select>
+	<select id="userSelectRole" resultType="Role" parameterType="int">
+		select role.* from user,user_role,role where user.username=user_role.username and role.rolename=user_role.rolename and user.id=#{id}
+	</select>
+	<select id="userSelectPer" resultType="Permission" parameterType="int">
+		select permission.* from user,user_role,role_permission,permission where user.username=user_role.username and user_role.rolename=role_permission.rolename and role_permission.permission=permission.pername and user.id=#{id}
+	</select>
+	<insert id="userAddUserRole">
+		insert into user_role(username,rolename) select user.username,role.rolename from user,role where user.id=#{userid} and role.id=#{roleid}
+	</insert>
+</mapper>

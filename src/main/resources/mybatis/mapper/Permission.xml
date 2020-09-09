@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sj.springboot2mybatis.dao.IPermissionDao">
+    <insert id="addPer" parameterType="Permission">
+        insert into permission(pername,perids,fatherID,pertype) values (#{pername},#{perids},#{fatherID},#{pertype})
+    </insert>
+    <update id="updatePer" parameterType="Permission">
+        update permission set pername=#{pername},perids=#{perids},fatherID=#{fatherID},pertype=#{pertype} where id=#{id}
+    </update>
+    <delete id="deletePer" parameterType="Permission">
+        delete from permission where id=#{id} and pername=#{pername}
+    </delete>
+</mapper>
